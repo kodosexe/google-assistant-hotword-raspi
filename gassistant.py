@@ -3,7 +3,14 @@ import sys
 import signal
 import time
 import logging
+import RPi.GPIO as GPIO
 from assistant import Assistant
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+# Pin 16 on RPi Hardware
+ledPin = 23
+GPIO.setup(ledPin, GPIO.OUT)
 
 interrupted = False
 
@@ -35,9 +42,9 @@ assistant = Assistant()
 
 def detect_callback():
     detector.terminate()
-    snowboydecoder.play_audio_file(snowboydecoder.DETECT_DING)
+    GPIO.output(ledPin, HIGH)
     assistant.assist()
-    snowboydecoder.play_audio_file(snowboydecoder.DETECT_DONG)
+    GPIO.output(ledPin, LOW)
     detector.start(detected_callback=detect_callback, interrupt_check=interrupt_callback, sleep_time=0.03)
 
 
