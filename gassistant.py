@@ -56,3 +56,4 @@ detector.start(detected_callback=detect_callback,
                sleep_time=0.03)
 
 detector.terminate()
+GPIO.cleanup()
